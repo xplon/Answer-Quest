@@ -1,0 +1,39 @@
+{
+  "app": {
+    "title": "通用答题系统",
+    "description": "支持多种题型的在线答题平台",
+    "version": "1.0.0"
+  },
+  "currentSubject": {
+    "name": "马克思主义基本原理",
+    "dataFile": "questions.json",
+    "description": "马克思主义基本原理题库"
+  },
+  "questionTypes": {
+    "single_choice": {
+      "name": "单选题",
+      "description": "从多个选项中选择一个正确答案"
+    },
+    "multiple_choice": {
+      "name": "多选题", 
+      "description": "从多个选项中选择多个正确答案"
+    },
+    "true_false": {
+      "name": "判断题",
+      "description": "判断题目描述是否正确"
+    }
+  },
+  "ui": {
+    "theme": "default",
+    "language": "zh-CN",
+    "showChapterSelection": true,
+    "showTypeSelection": true,
+    "showProgress": true,
+    "showScore": true
+  },
+  "scoring": {
+    "singleChoicePoints": 2,
+    "multipleChoicePoints": 3,
+    "trueFalsePoints": 1
+  }
+}

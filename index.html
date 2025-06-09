@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>通用答题系统</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 加载指示器 -->
+    <div id="loading" class="loading-overlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">正在加载题库...</div>
+    </div>
+
+    <!-- 错误提示 -->
+    <div id="error-message" class="error-overlay" style="display: none;">
+        <div class="error-content">
+            <h3>加载失败</h3>
+            <p id="error-text">题库加载失败，请检查文件是否存在。</p>
+            <button onclick="location.reload()">重试</button>
+        </div>
+    </div>
+
+    <!-- 主容器 -->
+    <div class="container">
+        <!-- 页头 -->
+        <header class="header">
+            <h1 id="app-title">通用答题系统</h1>
+            <p id="app-description">支持多种题型的在线答题平台</p>
+        </header>
+
+        <!-- 开始界面 -->
+        <div id="start-screen" class="screen active">
+            <div class="welcome-section">
+                <h2 id="subject-title">马克思主义基本原理</h2>
+                <p id="subject-description">选择章节和题型开始答题</p>
+            </div>
+            
+            <div class="quiz-settings">
+                <div class="setting-group">
+                    <label for="chapter-select">选择章节：</label>
+                    <select id="chapter-select">
+                        <option value="">正在加载...</option>
+                    </select>
+                </div>
+                
+                <div class="setting-group">
+                    <label for="question-type-select">题目类型：</label>
+                    <select id="question-type-select">
+                        <option value="">正在加载...</option>
+                    </select>
+                </div>
+                
+                <div class="setting-group">
+                    <label for="question-count">题目数量：</label>
+                    <select id="question-count">
+                        <option value="10">10题</option>
+                        <option value="20" selected>20题</option>
+                        <option value="30">30题</option>
+                        <option value="50">50题</option>
+                        <option value="all">全部</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="button-group">
+                <button id="start-quiz-btn" class="btn btn-primary">开始答题</button>
+                <button id="practice-mode-btn" class="btn btn-secondary">练习模式</button>
+            </div>
+            
+            <div class="statistics">
+                <h3>题库统计</h3>
+                <div id="question-stats" class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-label">总题数：</span>
+                        <span class="stat-value" id="total-questions">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">单选题：</span>
+                        <span class="stat-value" id="single-choice-count">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">多选题：</span>
+                        <span class="stat-value" id="multiple-choice-count">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">判断题：</span>
+                        <span class="stat-value" id="true-false-count">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 答题界面 -->
+        <div id="quiz-screen" class="screen">
+            <div class="quiz-header">
+                <div class="progress-info">
+                    <span id="question-counter">第 1 题 / 共 20 题</span>
+                    <div class="progress-bar">
+                        <div id="progress-fill" class="progress-fill"></div>
+                    </div>
+                </div>
+                <div class="quiz-controls">
+                    <button id="pause-btn" class="btn btn-secondary">暂停</button>
+                    <button id="quit-btn" class="btn btn-danger">退出</button>
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question-header">
+                    <span id="question-type-badge" class="badge">单选题</span>
+                    <span id="question-chapter" class="chapter-info">第一章</span>
+                </div>
+                
+                <div class="question-content">
+                    <h3 id="question-text">正在加载题目...</h3>
+                </div>
+                
+                <div id="options-container" class="options-container">
+                    <!-- 选项将动态生成 -->
+                </div>
+                
+                <div class="question-actions">
+                    <button id="prev-btn" class="btn btn-secondary" disabled>上一题</button>
+                    <button id="submit-answer-btn" class="btn btn-primary" disabled>提交答案</button>
+                    <button id="next-btn" class="btn btn-primary" disabled>下一题</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 结果界面 -->
+        <div id="result-screen" class="screen">
+            <div class="result-summary">
+                <h2>答题完成！</h2>
+                <div class="score-display">
+                    <div class="score-circle">
+                        <span id="final-score">85</span>
+                        <span class="score-unit">分</span>
+                    </div>
+                </div>
+                
+                <div class="result-stats">
+                    <div class="result-item">
+                        <span class="result-label">总题数：</span>
+                        <span id="result-total" class="result-value">20</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">正确数：</span>
+                        <span id="result-correct" class="result-value correct">17</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">错误数：</span>
+                        <span id="result-wrong" class="result-value wrong">3</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">正确率：</span>
+                        <span id="result-accuracy" class="result-value">85%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="result-actions">
+                <button id="review-wrong-btn" class="btn btn-secondary">查看错题</button>
+                <button id="restart-btn" class="btn btn-primary">重新开始</button>
+                <button id="back-home-btn" class="btn btn-secondary">返回首页</button>
+            </div>
+        </div>
+
+        <!-- 错题回顾界面 -->
+        <div id="review-screen" class="screen">
+            <div class="review-header">
+                <h2>错题回顾</h2>
+                <div class="review-info">
+                    <span id="review-counter">第 1 题 / 共 3 题</span>
+                </div>
+            </div>
+            
+            <div class="review-content">
+                <div class="question-review">
+                    <div class="question-header">
+                        <span id="review-question-type" class="badge">单选题</span>
+                        <span id="review-question-chapter" class="chapter-info">第一章</span>
+                    </div>
+                    
+                    <div class="question-content">
+                        <h3 id="review-question-text">题目内容...</h3>
+                    </div>
+                    
+                    <div id="review-options-container" class="options-container">
+                        <!-- 选项将动态生成，会显示正确答案和用户答案 -->
+                    </div>
+                    
+                    <div class="answer-explanation">
+                        <div class="user-answer">
+                            <strong>您的答案：</strong>
+                            <span id="user-answer-text" class="wrong-answer">B</span>
+                        </div>
+                        <div class="correct-answer">
+                            <strong>正确答案：</strong>
+                            <span id="correct-answer-text" class="correct-answer">A</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="review-navigation">
+                    <button id="review-prev-btn" class="btn btn-secondary" disabled>上一题</button>
+                    <button id="review-next-btn" class="btn btn-primary">下一题</button>
+                    <button id="finish-review-btn" class="btn btn-success">完成回顾</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 确认对话框 -->
+    <div id="confirm-dialog" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3 id="confirm-title">确认操作</h3>
+            <p id="confirm-message">您确定要执行此操作吗？</p>
+            <div class="modal-actions">
+                <button id="confirm-yes" class="btn btn-primary">确定</button>
+                <button id="confirm-no" class="btn btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 脚本 -->
+    <script src="app.js"></script>
+    <script>
+        // 全局错误处理
+        window.addEventListener('error', function(e) {
+            console.error('全局错误:', e.error);
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('error-message').style.display = 'flex';
+            document.getElementById('error-text').textContent = '应用初始化失败: ' + e.error.message;
+        });
+
+        // 页面加载完成后初始化应用
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM加载完成，开始初始化应用');
+            try {
+                window.app = new QuestionBankApp();
+                console.log('应用实例创建成功');
+            } catch (error) {
+                console.error('应用创建失败:', error);
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('error-message').style.display = 'flex';
+                document.getElementById('error-text').textContent = '应用创建失败: ' + error.message;
+            }
+        });
+
+        // 添加调试功能
+        window.debugApp = function() {
+            if (window.app) {
+                console.log('应用状态:', {
+                    config: window.app.config,
+                    questionData: window.app.questionData,
+                    questionsCount: window.app.questions.length,
+                    currentScreen: document.querySelector('.screen.active')?.id
+                });
+            } else {
+                console.log('应用未初始化');
+            }
+        };
+    </script>
+</body>
+</html>

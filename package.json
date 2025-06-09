@@ -1,0 +1,56 @@
+{
+  "name": "universal-quiz-system",
+  "version": "1.0.0",
+  "description": "一个通用的web答题系统，支持单选、多选和判断题",
+  "main": "app.js",
+  "scripts": {
+    "start": "python -m http.server 8080",
+    "dev": "python -m http.server 8080",
+    "convert": "node converter.js",
+    "test": "node -e \"const { runAllTests } = require('./test.js'); runAllTests();\"",
+    "subject:list": "node subject-manager.js list",
+    "subject:create": "node subject-manager.js create",
+    "subject:switch": "node subject-manager.js switch",
+    "subject:delete": "node subject-manager.js delete"
+  },
+  "keywords": [
+    "quiz",
+    "education",
+    "exam",
+    "questions",
+    "web-app",
+    "javascript",
+    "html5",
+    "css3"
+  ],
+  "author": "Quiz System Developer",
+  "license": "MIT",
+  "engines": {
+    "node": ">=12.0.0",
+    "python": ">=3.6.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/universal-quiz-system.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/universal-quiz-system/issues"
+  },
+  "homepage": "https://github.com/your-username/universal-quiz-system#readme",
+  "devDependencies": {},
+  "dependencies": {},
+  "files": [
+    "index.html",
+    "app.js",
+    "styles.css",
+    "config.json",
+    "converter.js",
+    "subject-manager.js",
+    "test.js",
+    "README.md"
+  ],
+  "directories": {
+    "doc": "docs",
+    "test": "."
+  }
+}
